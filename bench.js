@@ -3,25 +3,28 @@
  */
 
 var Graph = require('graphology'),
-    oldSCC = require('./').stronglyConnectedComponents,
-    newSCC = require('./').NEWstronglyConnectedComponents,
-    dataset = require('./directed1000.json'),
+    oldSCC = require('./').oldSCC,
+    newSCC = require('./').newSCC,
     graph = new Graph(),
     i,
     start, end,
     sumold = 0,
     sumnew = 0,
-    N = 100;
+    N = 100000;
 
-for (i = 0, l = dataset.nodes.length; i < l; i++)
-      graph.addNode(dataset.nodes[i].id);
-for (i = 0, l = dataset.edges.length; i < l; i++) {
-    if (graph.hasEdge(dataset.edges[i].source, dataset.edges[i].target))
-        continue;
-     graph.addDirectedEdge(dataset.edges[i].source, dataset.edges[i].target);
-}
+graph.addNodesFrom([1, 2, 3, 4, 5, 6, 7, 8]);
 
-for (i = 0; i < N; i++) {
+graph.addDirectedEdge(1, 2);
+graph.addDirectedEdge(2, 3);
+graph.addDirectedEdge(3, 1);
+graph.addDirectedEdge(3, 4);
+graph.addDirectedEdge(4, 5);
+graph.addDirectedEdge(5, 4);
+graph.addDirectedEdge(6, 7);
+graph.addDirectedEdge(7, 8);
+graph.addDirectedEdge(8, 6);
+
+for (i = 0; i < N; i++) {
       start = +new Date();
       oldSCC(graph);
       end = +new Date();
